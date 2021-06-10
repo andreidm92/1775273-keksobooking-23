@@ -129,4 +129,3 @@ const massiveObjects = new Array(NUMBER_OBJECTS).fill(null).map(() => generateOb
 // eslint-disable-next-line no-console
 console.log(massiveObjects);
 
-
