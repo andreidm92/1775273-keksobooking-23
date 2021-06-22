@@ -1,4 +1,4 @@
-import {getIntRandom, getFloatRandom, generateObject, getRandomSubArray} from 'util.js';
+import {getIntRandom, getFloatRandom, generateObject, getRandomSubArray} from './util.js';
 
 const NUMBER_OBJECTS = 10;
 const MAX_ROOMS_NUMBER = 30;

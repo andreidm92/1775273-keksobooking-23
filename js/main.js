@@ -1,6 +1,5 @@
-import massiveObjects from 'data.js';
+import {massiveObjects} from './data.js';
 
 // eslint-disable-next-line no-console
 console.log(massiveObjects);
-
 
