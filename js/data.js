@@ -1,3 +1,4 @@
+
 import {getIntRandom, getFloatRandom, generateObject, getRandomSubArray} from './util.js';
 
 const NUMBER_OBJECTS = 10;
