@@ -1,34 +1,43 @@
 const userNameInput = document.querySelector('#type');
 
-const minPriceBungalo = 0;
-const minPriceFlat = 1000;
-const minPriceHotel = 3000;
-const minPriceHome = 5000;
-const minPricePalace = 10000;
+const MIN_PRICE_BUNGALO = 0;
+const MIN_PRICE_FLAT = 1000;
+const MIN_PRICE_HOTEL = 3000;
+const MIN_PRICE_HOME = 5000;
+const MIN_PRICE_PALACE = 10000;
+
+const N_0 = 0;
+const N_1 = 1;
+const N_2 = 2;
+const N_3 = 3;
+const N_4 = 4;
+
+const INDEX_MAX = 3;
+
 
 userNameInput.addEventListener('change', (event) => {
   const ind = event.target.selectedIndex;
   const element = document.querySelector('#price');
   switch (ind) {
-    case 0:
-      element.placeholder = minPriceBungalo;
-      element.setAttribute('min', minPriceBungalo);
+    case N_0:
+      element.placeholder =  MIN_PRICE_BUNGALO;
+      element.setAttribute('min',  MIN_PRICE_BUNGALO);
       break;
-    case 1:
-      element.placeholder = minPriceFlat;
-      element.setAttribute('min', minPriceFlat);
+    case N_1:
+      element.placeholder = MIN_PRICE_FLAT;
+      element.setAttribute('min', MIN_PRICE_FLAT);
       break;
-    case 2:
-      element.placeholder = minPriceHotel;
-      element.setAttribute('min', minPriceHotel);
+    case N_2:
+      element.placeholder = MIN_PRICE_HOTEL;
+      element.setAttribute('min', MIN_PRICE_HOTEL);
       break;
-    case 3:
-      element.placeholder = minPriceHome;
-      element.setAttribute('min', minPriceHome);
+    case N_3:
+      element.placeholder = MIN_PRICE_HOME;
+      element.setAttribute('min', MIN_PRICE_HOME);
       break;
-    case 4:
-      element.placeholder = minPricePalace;
-      element.setAttribute('min', minPricePalace);
+    case N_4:
+      element.placeholder = MIN_PRICE_PALACE;
+      element.setAttribute('min', MIN_PRICE_PALACE);
       break;
   }
 
@@ -39,7 +48,7 @@ const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 roomNumber.addEventListener('change', (event) => {
   const clear = function() {
-    for (let index = 0; index <= 3; index++) {
+    for (let index = 0; index <= INDEX_MAX; index++) {
       if (capacity[index].classList.contains('hidden')){
         capacity[index].classList.remove('hidden');
       }
