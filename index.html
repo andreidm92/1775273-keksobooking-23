@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="leaflet/leaflet.css">
   <title>Кексобукинг</title>
 </head>
 <body>
@@ -19,7 +20,11 @@
     <section class="map">
 
       <!-- Блок для вставки карты -->
-      <div class="map__canvas" id="map-canvas"></div>
+      <div class="map__canvas" id="map-canvas">
+        <button id="reset" type="button">Вернуть метку на место</button>
+      </div>
+
+
 
       <!-- Фильтрация объявлений -->
       <div class="map__filters-container">
@@ -229,7 +234,18 @@
       <button type="button" class="error__button">Попробовать снова</button>
     </div>
   </template>
+
+  <!-- Шаблон всплывающего сообщения -->
+  <template id="balloon">
+    <section class="balloon">
+      <h3 class="balloon__title">Остров сокровищ</h3>
+      <p class="balloon__lat-lng">Координаты: 12.34567, 98.76543</p>
+    </section>
+  </template>
+
+
   <!-- Подключение скрипта-->
   <script type="module" src="js/main.js"></script>
+  <script src="leaflet/leaflet.js"></script>
 </body>
 </html>
