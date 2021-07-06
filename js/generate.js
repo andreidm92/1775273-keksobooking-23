@@ -43,6 +43,7 @@ const generateAdvertising = function (data,index) {
   if (!data[index]['offer']['title']) {
     advertisingClone.querySelector('.popup__title').classList.add('hidden');
   }
+
   return advertisingClone;
 };
 
