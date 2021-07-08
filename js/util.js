@@ -31,3 +31,4 @@ const getRandomSubArray = function(list){
 };
 
 export {getIntRandom, getFloatRandom, generateObject, getRandomSubArray};
+

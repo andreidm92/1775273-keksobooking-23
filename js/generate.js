@@ -1,3 +1,4 @@
+
 //import {massiveObjects} from './data.js';
 
 // Нашли template
@@ -48,4 +49,5 @@ const generateAdvertising = function (data,index) {
 };
 
 export {generateAdvertising};
+
 
