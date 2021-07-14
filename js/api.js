@@ -1,28 +1,29 @@
-/*
-const createFetch = (onSuccess, onError) => () => {
-  return fetch(
-    'https://23.javascript.pages.academy/keksobooking/data',
+const adFormElement = document.querySelector('.ad-form');
+console.log('Привет')
+adFormElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const formData = new FormData(evt.target);
+  fetch(
+    'https://23.javascript.pages.academy/code-and-magick',
     {
-      method: 'GET',
-      credentials: 'same-origin',
+      method: 'POST',
+      body: formData,
     },
   )
     .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-
-      throw new Error(`${response.status} ${response.statusText}`);
+      // eslint-disable-next-line no-console
+      console.log(response.status);
+      // eslint-disable-next-line no-console
+      console.log(response.ok);
+      return response.json();
     })
     .then((json) => {
-      onSuccess(json);
+      // eslint-disable-next-line no-console
+      console.log('Результат', json);
     })
     .catch((err) => {
-      onError(err);
+      // eslint-disable-next-line no-console
+      console.error(err);
     });
-};
+});
 
-
-
-export {createFetch};
-*/

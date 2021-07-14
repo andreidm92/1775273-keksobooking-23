@@ -7,7 +7,7 @@ const textTemplate = document.querySelector('#card').content;
 const advertisingClone = textTemplate.cloneNode(true);
 // eslint-disable-next-line no-console
 console.log(advertisingClone);
-
+/*
 const typesTranslations = {
   'palace': 'Дворец',
   'flat': 'Квартира',
@@ -15,7 +15,7 @@ const typesTranslations = {
   'bungalow': 'Бунгалу',
   'hotel': 'Отель',
 };
-
+*/
 const generateAdvertising = function (data,index) {
   advertisingClone.querySelector('.popup__title').textContent = data[index]['offer']['title'];
   advertisingClone.querySelector('.popup__text--address').textContent = data[index]['offer']['address'];

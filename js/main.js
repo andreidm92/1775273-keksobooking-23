@@ -1,23 +1,23 @@
 
-import {massiveObjects} from './data.js';
-import {generateAdvertising} from './generate.js';
+//import {massiveObjects} from './data.js';
+//import {generateAdvertising} from './generate.js';
 import {userNameInput} from './form.js';
 import {roomNumber} from './form.js';
+// eslint-disable-next-line no-unused-vars
 import {inactivePage, activePage} from './formMgt.js';
+// eslint-disable-next-line no-unused-vars
+import {setFilterChangeListener, COUNT_MARKERS, mapFiltersElement} from './filters.js';
+import './api.js';
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
-
+// eslint-disable-next-line no-unused-vars
 const mapCanvasElement = document.querySelector('.map__canvas');
 //mapCanvasElement.appendChild(generateAdvertising(massiveObjects, 1));
 
 
-//inactivePage();
+inactivePage();
 activePage();
 
-<<<<<<< HEAD
+
 // Размещение маркеров на карте
 
 // global L:readonly
@@ -34,12 +34,12 @@ L.tileLayer(
   },
 ).addTo(map);
 const mainPinIcon = L.icon({
-  iconUrl: 'leaflet/images/marker-icon-2x.png',
+  iconUrl: '/img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
 
-const marker = L.marker(
+let marker = L.marker(
   {
     lat: 35.4122,
     lng: 139.4130,
@@ -74,11 +74,20 @@ resetButton.addEventListener('click', () => {
     lng: 139.4130,
   }, 16);
 });
-//marker.remove();
 
+const typesTranslations = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalow': 'Бунгалу',
+  'hotel': 'Отель',
+};
+
+// eslint-disable-next-line no-unused-vars
 const createCustomPopupShort = (point) => {
   const balloonTemplate = document.querySelector('#balloon').content.querySelector('.balloon');
   const popupElement = balloonTemplate.cloneNode(true);
+  // eslint-disable-next-line no-console
   console.log(popupElement);
   popupElement.querySelector('.balloon__title').textContent = point.title;
   popupElement.querySelector('.balloon__lat-lng').textContent = `Координаты: ${point.lat}, ${point.lng}`;
@@ -92,8 +101,7 @@ const createCustomPopup = (point) => {
   advertisingClone.querySelector('.popup__title').textContent = point['title'];
   advertisingClone.querySelector('.popup__text--address').textContent = point['address'];
   advertisingClone.querySelector('.popup__text--price').textContent = `${point['price']} ₽/ночь`;
-  //const translate = point['offer']['type'];
-  //advertisingClone.querySelector('.popup__type').textContent = typesTranslations[translate];
+  advertisingClone.querySelector('.popup__type').textContent = typesTranslations[point['type']];
   advertisingClone.querySelector('.popup__text--capacity').textContent = `${point['rooms']} комнаты для ${point['guests']} гостей`;
   advertisingClone.querySelector('.popup__text--time').textContent = `Заезд после ${point['checkin']}, выезд до ${point['checkout']}`;
   advertisingClone.querySelector('.popup__features').textContent = point['features'];
@@ -120,17 +128,15 @@ const createCustomPopup = (point) => {
   return advertisingClone;
 };
 
-
-
 const markerGroup = L.layerGroup().addTo(map);
 const createMarker = (point) => {
   const {lat, lng} = point;
   const icon = L.icon({
-    iconUrl: 'leaflet/images/marker-icon.png',
+    iconUrl: '/img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
-  const marker = L.marker(
+  marker = L.marker(
     {
       lat,
       lng,
@@ -144,19 +150,22 @@ const createMarker = (point) => {
       createCustomPopup(point),
       {
         keepInView: true,
-      },
-    )
+      })
     /*
+    .on('mouseover', (evt) => {
+      evt.target.createCustomPopupShort(point);
+    })
+    */
+  /*
     .on('mouseover', function() {
       marker.openPopup()
     });
     */
-    /*
+  /*
     .on('mouseover', (evt) => {
       evt.target.createCustomPopupShort(point);
     });
     */
-
 
 
   //marker.on('mouseover' function() {marker.openPopup();});
@@ -167,32 +176,16 @@ points.forEach((point) => {
   createMarker(point);
 });
 */
+// eslint-disable-next-line no-unused-vars
+const removeMarkers = () => {
+  markerGroup.clearLayers();
+};
 
-
-const formValue = document.querySelector('.ad-form');
-const formButton = formValue.querySelector('.ad-form__submit')
-
-formButton.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const formData = new FormData(evt.target);
-
-  fetch(
-    'https://23.javascript.pages.academy/keksobooking',
-    {
-      method: 'POST',
-      body: formData,
-      type: 'multipart/form-data',
-    },
-  );
-});
 
 fetch('https://23.javascript.pages.academy/keksobooking/data')
   .then((response) => response.json())
   .then((base) => {
-    console.log('Результат', base);
-    //console.log(generateAdvertising(base, 1));
-    for (let i=0; i < base.length; i++){
-      //console.log(generateAdvertising(base, i));
+    for (let i=0; i < COUNT_MARKERS; i++){
       const points =
         {
           title: base[i]['offer']['title'],
@@ -210,20 +203,10 @@ fetch('https://23.javascript.pages.academy/keksobooking/data')
           rooms: base[i]['offer']['rooms'],
           type: base[i]['offer']['type'],
         };
-      console.log(points);
       createMarker(points);
-=======
-fetch('https://23.javascript.pages.academy/keksobooking/data')
-  .then((response) => response.json())
-  .then((base) => {
-    console.log('Результат', base[1]);
-    console.log(generateAdvertising(base, 1));
-    for (let i=0; i < base.length; i++){
-      console.log(generateAdvertising(base, i));
-
->>>>>>> master
     }
-
+    setFilterChangeListener(base);
   });
 
+export { removeMarkers, createMarker };
 
