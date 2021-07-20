@@ -1,29 +1,22 @@
-const adFormElement = document.querySelector('.ad-form');
-console.log('Привет')
-adFormElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const formData = new FormData(evt.target);
-  fetch(
-    'https://23.javascript.pages.academy/code-and-magick',
+
+export function loadData(){
+  return fetch('https://23.javascript.pages.academy/keksobooking/data').
+    then ((response) => response.json());
+}
+
+export function saveData(data) {
+  return fetch(
+    'https://23.javascript.pages.academy/keksobooking',
     {
       method: 'POST',
-      body: formData,
+      body: data,
     },
   )
-    .then((response) => {
-      // eslint-disable-next-line no-console
-      console.log(response.status);
-      // eslint-disable-next-line no-console
-      console.log(response.ok);
-      return response.json();
-    })
-    .then((json) => {
-      // eslint-disable-next-line no-console
-      console.log('Результат', json);
-    })
+    .then((response) => response.json())
     .catch((err) => {
       // eslint-disable-next-line no-console
       console.error(err);
     });
-});
+}
+
 

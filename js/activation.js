@@ -68,47 +68,6 @@ const activePage = function(){
 
 };
 
-
-/*
-const markerGroup = L.layerGroup().addTo(map);
-
-const createMarker = (point) => {
-  const {lat, lng} = point;
-
-  const icon = L.icon({
-    iconUrl: 'leaflet/images/marker-icon.png',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
-
-  marker
-    .addTo(markerGroup)
-    .bindPopup(
-      createCustomPopup(point),
-      {
-        keepInView: true,
-      },
-    );
-};
-
-points.forEach((point) => {
-  createMarker(point);
-});
-
-markerGroup.clearLayers();
-*/
-
 export {inactivePage, activePage};
-
 
 

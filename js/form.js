@@ -1,3 +1,4 @@
+
 const userNameInput = document.querySelector('#type');
 
 const MIN_PRICE_BUNGALO = 0;
@@ -60,26 +61,22 @@ roomNumber.addEventListener('change', (event) => {
     capacity[0].classList.add('hidden');
     capacity[1].classList.add('hidden');
     capacity[3].classList.add('hidden');
-    capacity[0].removeAttribute('selected');
   }
   if (ind===1) {
     clear();
     capacity[0].classList.add('hidden');
     capacity[3].classList.add('hidden');
-    capacity[0].removeAttribute('selected');
   }
 
   if (ind===2) {
     clear();
     capacity[3].classList.add('hidden');
-    capacity[0].removeAttribute('selected');
   }
   if (ind===3) {
     clear();
     capacity[0].classList.add('hidden');
     capacity[1].classList.add('hidden');
     capacity[2].classList.add('hidden');
-    capacity[0].removeAttribute('selected');
   }
 });
 
@@ -126,23 +123,76 @@ priceInput.addEventListener('input', () => {
 const checkIn = document.querySelector('#timein');
 const checkOut = document.querySelector('#timeout');
 
-checkIn.addEventListener('change', (event) => {
-  const i = event.target.selectedIndex;
-  for(let j=0; j<checkOut.length; j++){
-    checkOut[j].removeAttribute('selected');
-    checkIn[j].removeAttribute('selected');
+checkIn.addEventListener('change', () => {
+  if (checkIn.value === '12:00') {
+    checkOut.value = '12:00';
+  } else if (checkIn.value === '13:00') {
+    checkOut.value = '13:00';
+  } else {
+    checkOut.value = '14:00';
   }
-  checkOut[i].setAttribute('selected','');
-});
-checkOut.addEventListener('change', (event) => {
-  const i = event.target.selectedIndex;
-  for(let j=0; j<checkIn.length; j++){
-    checkIn[j].removeAttribute('selected');
-    checkOut[j].removeAttribute('selected');
-  }
-
-  checkIn[i].setAttribute('selected','');
 });
 
+checkOut.addEventListener('change', () => {
+  if (checkOut.value === '12:00') {
+    checkIn.value = '12:00';
+  } else if (checkOut.value === '13:00') {
+    checkIn.value = '13:00';
+  } else {
+    checkIn.value = '14:00';
+  }
+});
 
-export {userNameInput, roomNumber};
+// Управление отправкой формы
+
+const mainElement = document.querySelector('main');
+const promoElement = mainElement.querySelector('.promo');
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
+const showMessage = (templateId) => {
+  const popupTemplate = document.querySelector(templateId).content;
+  mainElement.insertBefore(popupTemplate, promoElement);
+};
+
+const closeMessage = (popup) => {
+  popup.classList.add('hidden');
+};
+
+const closeMessageByAction = (popupType) => {
+  const closeMessageByKey = (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      closeMessage(popupType);
+      document.removeEventListener('keydown', closeMessageByKey);
+    }
+  };
+  popupType.addEventListener('click', () => {
+    closeMessage(popupType);
+    document.removeEventListener('keydown', closeMessageByKey);
+  });
+
+  document.addEventListener('keydown', closeMessageByKey);
+};
+
+const onSuccess = () => {
+  showMessage('#success');
+  const successPopup = document.querySelector('.success');
+  successPopup.classList.remove('hidden');
+  closeMessageByAction(successPopup);
+};
+
+const onMistake = () => {
+  showMessage('#error');
+  const mistakePopup = document.querySelector('.error');
+  mistakePopup.classList.remove('hidden');
+
+  closeMessageByAction(mistakePopup);
+
+  const errorButton = document.querySelector('.error__button');
+  errorButton.addEventListener('click', () => {
+    mistakePopup.classList.add('hidden');
+  });
+};
+
+export {onMistake, onSuccess};
+

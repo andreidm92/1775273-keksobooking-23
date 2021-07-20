@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import { removeMarkers, createMarker } from './main.js';
+import { removeMarkers, createMarker } from './map.js';
 
 const mapFiltersElement = document.querySelector('.map__filters');
 const filterHousingTypeElement = mapFiltersElement.querySelector('#housing-type');
@@ -55,7 +54,7 @@ const createFilter =  _.debounce((points) => {
   }
 
   for (let i=0; i < filteredPoints.length; i++){
-    const points =
+    points =
       {
         title: filteredPoints[i]['offer']['title'],
         lat: filteredPoints[i]['location']['lat'].toFixed(5),
@@ -72,14 +71,12 @@ const createFilter =  _.debounce((points) => {
         rooms: filteredPoints[i]['offer']['rooms'],
         type: filteredPoints[i]['offer']['type'],
       };
-    console.log(filteredPoints[i]['offer']['type'])
     createMarker(points);
   }
 
 
 }, DELAY);
 
-// eslint-disable-next-line no-unused-vars
 function setFilterChangeListener (points) {
   mapFiltersElement.addEventListener('change', () => {
     removeMarkers();
