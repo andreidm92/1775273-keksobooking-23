@@ -11,7 +11,7 @@ inactivePage();
 activePage();
 loadMap();
 
-//Загрузка данных
+// Загрузка данных
 
 loadData().then((base) => {
   for (let i=0; i < COUNT_MARKERS; i++){
