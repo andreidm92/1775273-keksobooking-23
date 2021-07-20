@@ -1,3 +1,4 @@
+
 const userNameInput = document.querySelector('#type');
 
 const MIN_PRICE_BUNGALO = 0;
@@ -79,4 +80,119 @@ roomNumber.addEventListener('change', (event) => {
   }
 });
 
-export {userNameInput, roomNumber};
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+
+const titleInput = document.querySelector('#title');
+
+titleInput.addEventListener('input', () => {
+  const valueLength = titleInput.value.length;
+
+  if (valueLength < MIN_TITLE_LENGTH) {
+    titleInput.setCustomValidity(`Ещё ${  MIN_TITLE_LENGTH - valueLength } симв.`);
+  } else if (valueLength > MAX_TITLE_LENGTH) {
+    titleInput.setCustomValidity(`Удалите лишние ${  valueLength - MAX_TITLE_LENGTH } симв.`);
+  } else {
+    titleInput.setCustomValidity('');
+  }
+
+  titleInput.reportValidity();
+});
+
+const priceInput = document.querySelector('#price');
+
+const MAX_PRICE = 1000000;
+let MIN_PRICE = 0;
+if (priceInput.min) {
+  MIN_PRICE = priceInput.min;
+}
+
+priceInput.addEventListener('input', () => {
+  const priceValue = priceInput.value;
+
+  if (priceValue > MAX_PRICE) {
+    priceInput.setCustomValidity(`Цена превысила максимальную цену ${ MAX_PRICE }`);
+  } else if (priceValue < MIN_PRICE) {
+    priceInput.setCustomValidity(`Цена меньше минимума ${  MIN_PRICE  }`);
+  } else {
+    priceInput.setCustomValidity('');
+  }
+  priceInput.reportValidity();
+});
+
+const checkIn = document.querySelector('#timein');
+const checkOut = document.querySelector('#timeout');
+
+checkIn.addEventListener('change', () => {
+  if (checkIn.value === '12:00') {
+    checkOut.value = '12:00';
+  } else if (checkIn.value === '13:00') {
+    checkOut.value = '13:00';
+  } else {
+    checkOut.value = '14:00';
+  }
+});
+
+checkOut.addEventListener('change', () => {
+  if (checkOut.value === '12:00') {
+    checkIn.value = '12:00';
+  } else if (checkOut.value === '13:00') {
+    checkIn.value = '13:00';
+  } else {
+    checkIn.value = '14:00';
+  }
+});
+
+// Управление отправкой формы
+
+const mainElement = document.querySelector('main');
+const promoElement = mainElement.querySelector('.promo');
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
+const showMessage = (templateId) => {
+  const popupTemplate = document.querySelector(templateId).content;
+  mainElement.insertBefore(popupTemplate, promoElement);
+};
+
+const closeMessage = (popup) => {
+  popup.classList.add('hidden');
+};
+
+const closeMessageByAction = (popupType) => {
+  const closeMessageByKey = (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      closeMessage(popupType);
+      document.removeEventListener('keydown', closeMessageByKey);
+    }
+  };
+  popupType.addEventListener('click', () => {
+    closeMessage(popupType);
+    document.removeEventListener('keydown', closeMessageByKey);
+  });
+
+  document.addEventListener('keydown', closeMessageByKey);
+};
+
+const onSuccess = () => {
+  showMessage('#success');
+  const successPopup = document.querySelector('.success');
+  successPopup.classList.remove('hidden');
+  closeMessageByAction(successPopup);
+};
+
+const onMistake = () => {
+  showMessage('#error');
+  const mistakePopup = document.querySelector('.error');
+  mistakePopup.classList.remove('hidden');
+
+  closeMessageByAction(mistakePopup);
+
+  const errorButton = document.querySelector('.error__button');
+  errorButton.addEventListener('click', () => {
+    mistakePopup.classList.add('hidden');
+  });
+};
+
+export {onMistake, onSuccess};
+
