@@ -13,9 +13,9 @@ export function saveData(data) {
     },
   )
     .then((response) => response.json())
-    .catch((err) => {
+    .catch(() => {
       // eslint-disable-next-line no-console
-      console.error(err);
+      // console.error(err);
     });
 }
 

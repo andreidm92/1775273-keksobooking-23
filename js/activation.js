@@ -4,7 +4,7 @@ const formFilter = document.querySelector('.map__filters');
 const selectFilterElements = formFilter.querySelector('fieldset');
 const interactiveFilterElements = formFilter.querySelectorAll('.map__filter');
 
-const inactivePage = function(){
+const inactivatePage = function(){
   //Находим и делаем disable форму
   if (!formInformation.classList.contains('ad-form--disabled')){
     formInformation.classList.add('ad-form--disabled');
@@ -33,7 +33,7 @@ const inactivePage = function(){
 };
 
 
-const activePage = function(){
+const activatePage = function(){
   //Вставляем блок карты в DOM HTML
   const mapBlock = document.querySelector('.map__canvas');
   const mapElementHTML = '<div id="map" style="width: px; height: 480px;"></div>';
@@ -68,6 +68,6 @@ const activePage = function(){
 
 };
 
-export {inactivePage, activePage};
+export {inactivatePage, activatePage};
 
 

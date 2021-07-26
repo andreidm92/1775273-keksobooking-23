@@ -15,6 +15,25 @@ const N_4 = 4;
 
 const INDEX_MAX = 3;
 
+const roomNumber = document.querySelector('#room_number');
+const capacity = document.querySelector('#capacity');
+
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+
+const titleInput = document.querySelector('#title');
+
+const priceInput = document.querySelector('#price');
+
+const MAX_PRICE = 1000000;
+const MIN_PRICE = priceInput.min;
+
+const checkIn = document.querySelector('#timein');
+const checkOut = document.querySelector('#timeout');
+
+const bodyElement = document.querySelector('body');
+//const promoElement = mainElement.querySelector('.promo');
+
 
 userNameInput.addEventListener('change', (event) => {
   const ind = event.target.selectedIndex;
@@ -45,8 +64,6 @@ userNameInput.addEventListener('change', (event) => {
 }, false);
 
 
-const roomNumber = document.querySelector('#room_number');
-const capacity = document.querySelector('#capacity');
 roomNumber.addEventListener('change', (event) => {
   const clear = function() {
     for (let index = 0; index <= INDEX_MAX; index++) {
@@ -80,11 +97,6 @@ roomNumber.addEventListener('change', (event) => {
   }
 });
 
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
-
-const titleInput = document.querySelector('#title');
-
 titleInput.addEventListener('input', () => {
   const valueLength = titleInput.value.length;
 
@@ -99,14 +111,6 @@ titleInput.addEventListener('input', () => {
   titleInput.reportValidity();
 });
 
-const priceInput = document.querySelector('#price');
-
-const MAX_PRICE = 1000000;
-let MIN_PRICE = 0;
-if (priceInput.min) {
-  MIN_PRICE = priceInput.min;
-}
-
 priceInput.addEventListener('input', () => {
   const priceValue = priceInput.value;
 
@@ -119,9 +123,6 @@ priceInput.addEventListener('input', () => {
   }
   priceInput.reportValidity();
 });
-
-const checkIn = document.querySelector('#timein');
-const checkOut = document.querySelector('#timeout');
 
 checkIn.addEventListener('change', () => {
   if (checkIn.value === '12:00') {
@@ -145,13 +146,12 @@ checkOut.addEventListener('change', () => {
 
 // Управление отправкой формы
 
-const mainElement = document.querySelector('main');
-const promoElement = mainElement.querySelector('.promo');
 const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
 const showMessage = (templateId) => {
   const popupTemplate = document.querySelector(templateId).content;
-  mainElement.insertBefore(popupTemplate, promoElement);
+  bodyElement.appendChild(popupTemplate);
+
 };
 
 const closeMessage = (popup) => {

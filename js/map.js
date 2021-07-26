@@ -2,6 +2,7 @@
 import './main.js';
 
 const mapCanvasElement = document.querySelector('.map__canvas');
+const DIGITS = 5;
 
 const map = L.map(mapCanvasElement)
   .setView({
@@ -31,34 +32,27 @@ const markerMain = L.marker(
     icon: mainPinIcon,
   },
 );
+const inputAddress = document.querySelector('#address');
+const setMainMarker = () => `lat: ${markerMain.getLatLng().lat.toFixed(DIGITS)} lng: ${markerMain.getLatLng().lng.toFixed(DIGITS)}`;
 
 export function loadMap() {
   markerMain.addTo(map);
-  const inputAddress = document.querySelector('#address');
   inputAddress.setAttribute('readonly', true);
-
-  const DIGITS = 5;
 
   markerMain.on('moveend', (evt) => {
     inputAddress.value = `lat: ${evt.target.getLatLng().lat.toFixed(DIGITS)} lng: ${evt.target.getLatLng().lng.toFixed(DIGITS)}`;
 
   });
 
-  inputAddress.value = `lat: ${markerMain.getLatLng().lat.toFixed(DIGITS)} lng: ${markerMain.getLatLng().lng.toFixed(DIGITS)}`;
+  inputAddress.value = setMainMarker();
 }
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const resetButton = document.querySelector('#reset');
+const resetButton = document.querySelector('.ad-form__reset');
 resetButton.addEventListener('click', () => {
-  markerMain.setLatLng({
-    lat: 35.4122,
-    lng: 139.4130,
-  });
-  map.setView({
-    lat: 35.4122,
-    lng: 139.4130,
-  }, 16);
+  inputAddress.value = setMainMarker();
+  loadMap();
 });
 
 const typesTranslations = {
@@ -67,6 +61,21 @@ const typesTranslations = {
   'house': 'Дом',
   'bungalow': 'Бунгалу',
   'hotel': 'Отель',
+};
+
+const createFeatureList = (featureList, elementList) => {
+
+  const featureConstructor = featureList.map((feature) => `popup__feature--${feature}`);
+
+  elementList.forEach((elementItem) => {
+    let checkResult = false;
+
+    featureConstructor.forEach((constructorItem) => {
+      if (elementItem.classList.contains(constructorItem)) { checkResult = true; }
+    });
+
+    if (!checkResult) { elementItem.remove(); }
+  });
 };
 
 const createCustomPopup = (point) => {
@@ -85,7 +94,14 @@ const createCustomPopup = (point) => {
   if (!point['photos']) {
     advertisingClone.querySelector('.popup__photos').classList.add('hidden');
   } else {
-    advertisingClone.querySelector('.popup__photos').src = point['photos'];
+    const fotosStorage = advertisingClone.querySelector('.popup__photos');
+    const fotoTemplate = advertisingClone.querySelector('.popup__photo');
+    fotoTemplate.remove();
+    point.photos.forEach((photoItem) => {
+      const newPhotoElement = fotoTemplate.cloneNode(true);
+      newPhotoElement.setAttribute('src', photoItem);
+      fotosStorage.appendChild(newPhotoElement);
+    });
   }
 
   if (!point['description']){
@@ -96,7 +112,8 @@ const createCustomPopup = (point) => {
   if (!point['features']){
     advertisingClone.querySelector('.popup__features').classList.add('hidden');
   } else {
-    advertisingClone.querySelector('.popup__features').textContent = point['features'];
+    const featureElementList = advertisingClone.querySelectorAll('.popup__feature');
+    createFeatureList(point.features, featureElementList);
   }
   if (!point['title']) {
     advertisingClone.querySelector('.popup__title').classList.add('hidden');
